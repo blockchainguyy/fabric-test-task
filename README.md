@@ -34,13 +34,13 @@ Once you are in the network folder you can start setting up AID:Tech network env
 If it's your second time running this test task, or you have run any other HyperLedger Fabric based code, first run the following commands:
 
 ```sh
-./aidtech_network.sh down
+./sample_network.sh down
 ```
 
 It will ask for a confirmation:
 
 ```sh
-Stopping for channel 'aidtechchannel' with CLI timeout of '10' seconds and CLI delay of '3' seconds
+Stopping for channel 'samplechannel' with CLI timeout of '10' seconds and CLI delay of '3' seconds
 Continue? [Y/n]
 ```
 
@@ -66,8 +66,8 @@ If you have problems in shutting down containers and volumes using the script, t
 Once you're done with the Housekeeping, you are ready to start your network, use the following commands:
 
 ```sh
-./aidtech_network.sh up
-Starting for channel 'aidtechchannel' with CLI timeout of '10' seconds and CLI delay of '3' seconds
+./sample_network.sh up
+Starting for channel 'samplechannel' with CLI timeout of '10' seconds and CLI delay of '3' seconds
 Continue? [Y/n] Y
 ...
 ```
@@ -92,8 +92,8 @@ It also created `channel.tx`, `genesis.block`.
 
 When you start the network, you automatically bring up the 2 Orgs:
 
-- orgone.aidtech.com
-- orgtwo.aidtech.com
+- orgone.sample.com
+- orgtwo.sample.com
   You also create a public channel between them and instantiate Donation Manager Chaincode on that channel. Now, we can call getter functions using the CLI. To enter the CLI, use the following command:
 
 ```sh
@@ -107,7 +107,7 @@ Here you can fire following getter commands:
 Can be used to read the data stored for any Donation ID.
 
 ```sh
-peer chaincode query -C aidtechchannel -n donation-manager-chaincode -c '{"Args":["readDonation","929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b"]}'
+peer chaincode query -C samplechannel -n donation-manager-chaincode -c '{"Args":["readDonation","929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b"]}'
 
 // Expected Output format if ID not created:
 {"key":"929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b","value":null}
@@ -121,7 +121,7 @@ peer chaincode query -C aidtechchannel -n donation-manager-chaincode -c '{"Args"
 Can be used to read the data for multiple donation IDs.
 
 ```sh
-peer chaincode query -C aidtechchannel -n donation-manager-chaincode -c '{"Args":["readMultipleDonations","929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b", "c47eb9d83aae530a25831603184084050d2fee33383f597454e8d0cc517ed1f1", "7d0a59f560e88b7f8e1019353bb38786b8f981e6a62b9cc54204314591f4380r"]}'
+peer chaincode query -C samplechannel -n donation-manager-chaincode -c '{"Args":["readMultipleDonations","929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b", "c47eb9d83aae530a25831603184084050d2fee33383f597454e8d0cc517ed1f1", "7d0a59f560e88b7f8e1019353bb38786b8f981e6a62b9cc54204314591f4380r"]}'
 
 // Expected Output Format:
 {"929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b":{"value":null},"c47eb9d83aae530a25831603184084050d2fee33383f597454e8d0cc517ed1f1":{"value":{"project":"ITU","itemType":"toys","amount":"1","timestamp":{"seconds":{"low":1551265041,"high":0,"unsigned":false},"nanos":151019250},"validity":true}},"7d0a59f560e88b7f8e1019353bb38786b8f981e6a62b9cc54204314591f4380r":{"value":null}}
@@ -132,7 +132,7 @@ peer chaincode query -C aidtechchannel -n donation-manager-chaincode -c '{"Args"
 Can be used to check if a Donation ID is present or not.
 
 ```sh
-peer chaincode query -C aidtechchannel -n donation-manager-chaincode -c '{"Args":["isPresent","929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b"]}'
+peer chaincode query -C samplechannel -n donation-manager-chaincode -c '{"Args":["isPresent","929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b"]}'
 
 // Expected Output if present:
 {"exists":true}
@@ -146,7 +146,7 @@ peer chaincode query -C aidtechchannel -n donation-manager-chaincode -c '{"Args"
 Gets the create/update/delete history for a particular donation ID.
 
 ```sh
-peer chaincode query -C aidtechchannel -n donation-manager-chaincode -c '{"Args":["getHistoryForDonation","929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b"]}'
+peer chaincode query -C samplechannel -n donation-manager-chaincode -c '{"Args":["getHistoryForDonation","929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b"]}'
 
 // Expected Output:
 [{"TxId":"929cd618f0c6598eddaff18fa8ffab809ce1f35cb31a3270aa1fc80f1f92b85b","Timestamp":{"seconds":{"low":1551102037,"high":0,"unsigned":false},"nanos":512532845},"IsDelete":"false","Value":{"project":"ITU","itemType":"toys","amount":1,"timestamp":{"seconds":{"low":1551102037,"high":0,"unsigned":false},"nanos":512532845},"validity":true}},{"TxId":"7b678194c1ac43ef2519e818f6c8bae292f7a6e10178d3b1e8e9a30c626c3918","Timestamp":{"seconds":{"low":1551102781,"high":0,"unsigned":false},"nanos":25354489},"IsDelete":"false","Value":{"project":"ITU","itemType":"grains","amount":1,"timestamp":{"seconds":{"low":1551102781,"high":0,"unsigned":false},"nanos":25354489},"validity":true}},{"TxId":"965615284efe78c9df5994909548b6d3f72326b875a815278017c57fd74c0739","Timestamp":{"seconds":{"low":1551102798,"high":0,"unsigned":false},"nanos":411077463},"IsDelete":"true","Value":""}]
@@ -165,7 +165,7 @@ addDonation function represents creation of a donation. Storing the required pro
 ```sh
 CREATE1='{"Args":["addDonation", "ITU", "toys", "1"]}'
 
-peer chaincode invoke -o orderer.aidtech.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/aidtech.com/orderers/orderer.aidtech.com/msp/tlscacerts/tlsca.aidtech.com-cert.pem -C aidtechchannel -n donation-manager-chaincode --peerAddresses peer0.orgone.aidtech.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/tls/ca.crt --peerAddresses peer0.orgtwo.aidtech.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.aidtech.com/peers/peer0.orgtwo.aidtech.com/tls/ca.crt -c "$CREATE1"
+peer chaincode invoke -o orderer.sample.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/sample.com/orderers/orderer.sample.com/msp/tlscacerts/tlsca.sample.com-cert.pem -C samplechannel -n donation-manager-chaincode --peerAddresses peer0.orgone.sample.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/tls/ca.crt --peerAddresses peer0.orgtwo.sample.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.sample.com/peers/peer0.orgtwo.sample.com/tls/ca.crt -c "$CREATE1"
 
 // expected output format
 2019-02-25 14:01:26.237 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200 payload:"{\"donationId\":\"684a1b9eb44ce9925af5227be06ecf458b8fa34e7b4c374d7f766c5a50426aaf\"}" 
@@ -176,7 +176,7 @@ peer chaincode invoke -o orderer.aidtech.com:7050 --tls true --cafile /opt/gopat
 updateDonation function representing update of a given donation ID. The first argument passed should be a donation ID, following the keys to be updated (could be: project, itemType and amount) and the new updated values. This will recalculate the validity and timestamp for the donation.
 
 ```sh
-peer chaincode invoke -o orderer.aidtech.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/aidtech.com/orderers/orderer.aidtech.com/msp/tlscacerts/tlsca.aidtech.com-cert.pem -C aidtechchannel -n donation-manager-chaincode --peerAddresses peer0.orgone.aidtech.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/tls/ca.crt --peerAddresses peer0.orgtwo.aidtech.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.aidtech.com/peers/peer0.orgtwo.aidtech.com/tls/ca.crt -c '{"Args":["updateDonation", "684a1b9eb44ce9925af5227be06ecf458b8fa34e7b4c374d7f766c5a50426aaf", "itemType", "grains"]}'
+peer chaincode invoke -o orderer.sample.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/sample.com/orderers/orderer.sample.com/msp/tlscacerts/tlsca.sample.com-cert.pem -C samplechannel -n donation-manager-chaincode --peerAddresses peer0.orgone.sample.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/tls/ca.crt --peerAddresses peer0.orgtwo.sample.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.sample.com/peers/peer0.orgtwo.sample.com/tls/ca.crt -c '{"Args":["updateDonation", "684a1b9eb44ce9925af5227be06ecf458b8fa34e7b4c374d7f766c5a50426aaf", "itemType", "grains"]}'
 
 // expected output format
 2019-02-25 14:05:06.112 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200 payload:"{\"donationId\":\"684a1b9eb44ce9925af5227be06ecf458b8fa34e7b4c374d7f766c5a50426aaf\",\"updateTx\":\"845effc052dbbcf0be8cfe300a908e1285fdbe11c17c36ccc5985456ee949e4c\"}" 
@@ -188,7 +188,7 @@ Deletes a donation entity for a given ID from state.
 
 ```sh
 
-peer chaincode invoke -o orderer.aidtech.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/aidtech.com/orderers/orderer.aidtech.com/msp/tlscacerts/tlsca.aidtech.com-cert.pem -C aidtechchannel -n donation-manager-chaincode --peerAddresses peer0.orgone.aidtech.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/tls/ca.crt --peerAddresses peer0.orgtwo.aidtech.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.aidtech.com/peers/peer0.orgtwo.aidtech.com/tls/ca.crt -c '{"Args":["removeDonation", "684a1b9eb44ce9925af5227be06ecf458b8fa34e7b4c374d7f766c5a50426aaf"]}'
+peer chaincode invoke -o orderer.sample.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/sample.com/orderers/orderer.sample.com/msp/tlscacerts/tlsca.sample.com-cert.pem -C samplechannel -n donation-manager-chaincode --peerAddresses peer0.orgone.sample.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/tls/ca.crt --peerAddresses peer0.orgtwo.sample.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.sample.com/peers/peer0.orgtwo.sample.com/tls/ca.crt -c '{"Args":["removeDonation", "684a1b9eb44ce9925af5227be06ecf458b8fa34e7b4c374d7f766c5a50426aaf"]}'
 
 // expected output format
 2019-02-25 14:08:05.430 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 001 Chaincode invoke successful. result: status:200 payload:"{\"donationId\":\"684a1b9eb44ce9925af5227be06ecf458b8fa34e7b4c374d7f766c5a50426aaf\",\"deleteTx\":\"4b765927153f1bc9cd51b0166020a6ffe0384255a71776d94c168ea8543c2692\"}" 
@@ -199,11 +199,11 @@ peer chaincode invoke -o orderer.aidtech.com:7050 --tls true --cafile /opt/gopat
 To see debugging logs related to chaincode use:
 
 ```sh
-docker logs -f dev-peer0.orgone.aidtech.com-donation-manager-chaincode-1.0
+docker logs -f dev-peer0.orgone.sample.com-donation-manager-chaincode-1.0
 
 OR
 
-docker logs -f dev-peer0.orgtwo.aidtech.com-donation-manager-chaincode-1.0
+docker logs -f dev-peer0.orgtwo.sample.com-donation-manager-chaincode-1.0
 ```
 
 ## Running tests

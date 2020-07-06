@@ -1,19 +1,19 @@
 OrdererOrgs:
   - Name: Orderer
-    Domain: aidtech.com
+    Domain: sample.com
     Specs:
       - Hostname: orderer
 
 PeerOrgs:
   - Name: Orgone
-    Domain: orgone.aidtech.com
+    Domain: orgone.sample.com
     EnableNodeOUs: true
     Template:
       Count: 1
     Users:
       Count: 1
   - Name: Orgtwo
-    Domain: orgtwo.aidtech.com
+    Domain: orgtwo.sample.com
     EnableNodeOUs: true
     Template:
       Count: 1

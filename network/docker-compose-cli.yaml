@@ -1,41 +1,41 @@
 version: "2"
 
 volumes:
-  orderer.aidtech.com:
-  peer0.orgone.aidtech.com:
-  peer0.orgtwo.aidtech.com:
+  orderer.sample.com:
+  peer0.orgone.sample.com:
+  peer0.orgtwo.sample.com:
 
 networks:
-  aidtech:
+  sample:
 
 services:
-  orderer.aidtech.com:
+  orderer.sample.com:
     extends:
       file: base/docker-compose-base.yaml
-      service: orderer.aidtech.com
-    container_name: orderer.aidtech.com
+      service: orderer.sample.com
+    container_name: orderer.sample.com
     networks:
-      - aidtech
+      - sample
 
-  peer0.orgone.aidtech.com:
-    container_name: peer0.orgone.aidtech.com
+  peer0.orgone.sample.com:
+    container_name: peer0.orgone.sample.com
     extends:
       file: base/docker-compose-base.yaml
-      service: peer0.orgone.aidtech.com
+      service: peer0.orgone.sample.com
     environment:
       - CORE_LEDGER_HISTORY_ENABLEHISTORYDATABASE=true
     networks:
-      - aidtech
+      - sample
 
-  peer0.orgtwo.aidtech.com:
-    container_name: peer0.orgtwo.aidtech.com
+  peer0.orgtwo.sample.com:
+    container_name: peer0.orgtwo.sample.com
     extends:
       file: base/docker-compose-base.yaml
-      service: peer0.orgtwo.aidtech.com
+      service: peer0.orgtwo.sample.com
     environment:
       - CORE_LEDGER_HISTORY_ENABLEHISTORYDATABASE=true
     networks:
-      - aidtech
+      - sample
 
   cli:
     container_name: cli
@@ -47,13 +47,13 @@ services:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - CORE_LOGGING_LEVEL=INFO
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.orgone.aidtech.com:7051
+      - CORE_PEER_ADDRESS=peer0.orgone.sample.com:7051
       - CORE_PEER_LOCALMSPID=OrgoneMSP
       - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/tls/ca.crt
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/users/Admin@orgone.aidtech.com/msp
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/users/Admin@orgone.sample.com/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
@@ -63,8 +63,8 @@ services:
       - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
       - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
-      - orderer.aidtech.com
-      - peer0.orgone.aidtech.com
-      - peer0.orgtwo.aidtech.com
+      - orderer.sample.com
+      - peer0.orgone.sample.com
+      - peer0.orgtwo.sample.com
     networks:
-      - aidtech
+      - sample

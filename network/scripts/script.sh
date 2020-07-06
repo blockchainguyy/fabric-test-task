@@ -13,7 +13,7 @@ DELAY="$2"
 LANGUAGE="$3"
 TIMEOUT="$4"
 VERBOSE="$5"
-: ${CHANNEL_NAME:="aidtechchannel"}
+: ${CHANNEL_NAME:="samplechannel"}
 : ${DELAY:="3"}
 : ${LANGUAGE:="golang"}
 : ${TIMEOUT:="10"}
@@ -34,12 +34,12 @@ createChannel() {
 
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
                 set -x
-		peer channel create -o orderer.aidtech.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
+		peer channel create -o orderer.sample.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
 		res=$?
                 set +x
 	else
 				set -x
-		peer channel create -o orderer.aidtech.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+		peer channel create -o orderer.sample.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
 		res=$?
 				set +x
 	fi

@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blockmaven/aidtech-testtask.git"
+    "url": "git+https://github.com/blockmaven/sample-testtask.git"
   },
   "author": "blockmaven",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/blockmaven/aidtech-testtask/issues"
+    "url": "https://github.com/blockmaven/sample-testtask/issues"
   },
-  "homepage": "https://github.com/blockmaven/aidtech-testtask#readme"
+  "homepage": "https://github.com/blockmaven/sample-testtask#readme"
 }

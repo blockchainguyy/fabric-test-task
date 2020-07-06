@@ -9,7 +9,7 @@ function printHelp() {
   echo "WARNING: Some Features may not work due to trimming of unnecessary features"
   echo
   echo "Usage: "
-  echo "  aidtech_network.sh <mode> [-t <timeout>] [-d <delay>] [-f <docker-compose-file>] [-s <dbtype>] [-i <imagetag>] [-v]"
+  echo "  sample_network.sh <mode> [-t <timeout>] [-d <delay>] [-f <docker-compose-file>] [-s <dbtype>] [-i <imagetag>] [-v]"
   echo "    <mode> - one of 'up', 'down', 'restart' or 'generate'"
   echo "      - 'up' - bring up the network with docker-compose up"
   echo "      - 'down' - clear the network with docker-compose down"
@@ -22,20 +22,20 @@ function printHelp() {
   echo "    -l <language> - the chaincode language: golang (default) or node"
   echo "    -i <imagetag> - the tag to be used to launch the network (defaults to \"latest\")"
   echo "    -v - verbose mode"
-  echo "  aidtech_network.sh -h (print this message)"
+  echo "  sample_network.sh -h (print this message)"
   echo
   echo "Typically, one would first generate the required certificates and "
   echo "genesis block, then bring up the network. e.g.:"
   echo
-  echo "	aidtech_network.sh generate"
-  echo "	aidtech_network.sh up -s couchdb"
-  echo "        aidtech_network.sh up -s couchdb -i 1.2.x"
-  echo "	aidtech_network.sh down"
+  echo "	sample_network.sh generate"
+  echo "	sample_network.sh up -s couchdb"
+  echo "        sample_network.sh up -s couchdb -i 1.2.x"
+  echo "	sample_network.sh down"
   echo
   echo "Taking all defaults:"
-  echo "	aidtech_network.sh generate"
-  echo "	aidtech_network.sh up"
-  echo "	aidtech_network.sh down"
+  echo "	sample_network.sh generate"
+  echo "	sample_network.sh up"
+  echo "	sample_network.sh down"
 }
 
 # Ask user for confirmation to proceed
@@ -93,13 +93,13 @@ function checkPrereqs() {
   for UNSUPPORTED_VERSION in $BLACKLISTED_VERSIONS; do
     echo "$LOCAL_VERSION" | grep -q $UNSUPPORTED_VERSION
     if [ $? -eq 0 ]; then
-      echo "ERROR! Local Fabric binary version of $LOCAL_VERSION does not match this newer version of Aidtech and is unsupported. Either move to a later version of Fabric or checkout an earlier version of fabric-samples."
+      echo "ERROR! Local Fabric binary version of $LOCAL_VERSION does not match this newer version of sample and is unsupported. Either move to a later version of Fabric or checkout an earlier version of fabric-samples."
       exit 1
     fi
 
     echo "$DOCKER_IMAGE_VERSION" | grep -q $UNSUPPORTED_VERSION
     if [ $? -eq 0 ]; then
-      echo "ERROR! Fabric Docker image version of $DOCKER_IMAGE_VERSION does not match this newer version of Aidtech and is unsupported. Either move to a later version of Fabric or checkout an earlier version of fabric-samples."
+      echo "ERROR! Fabric Docker image version of $DOCKER_IMAGE_VERSION does not match this newer version of sample and is unsupported. Either move to a later version of Fabric or checkout an earlier version of fabric-samples."
       exit 1
     fi
   done
@@ -146,7 +146,7 @@ function networkDown() {
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
     rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
-    # remove the docker-compose yaml file that was customized to the aidtech
+    # remove the docker-compose yaml file that was customized to the sample
     rm -f docker-compose-e2e.yaml
   fi
 }
@@ -170,11 +170,11 @@ function replacePrivateKey() {
   # The next steps will replace the template's contents with the
   # actual values of the private key file names for the two CAs.
   CURRENT_DIR=$PWD
-  cd crypto-config/peerOrganizations/orgone.aidtech.com/ca/
+  cd crypto-config/peerOrganizations/orgone.sample.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
-  cd crypto-config/peerOrganizations/orgtwo.aidtech.com/ca/
+  cd crypto-config/peerOrganizations/orgtwo.sample.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
@@ -222,7 +222,7 @@ function generateChannelArtifacts() {
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
   set -x
-  configtxgen -channelID syschannel -profile AidtechOrdererGenesis -outputBlock ./channel-artifacts/genesis.block 
+  configtxgen -channelID syschannel -profile sampleOrdererGenesis -outputBlock ./channel-artifacts/genesis.block 
   res=$?
   set +x
   if [ $res -ne 0 ]; then
@@ -234,7 +234,7 @@ function generateChannelArtifacts() {
   echo "### Generating channel configuration transaction 'channel.tx' ###"
   echo "#################################################################"
   set -x
-  configtxgen -profile AidtechChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
+  configtxgen -profile sampleChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
   res=$?
   set +x
   if [ $res -ne 0 ]; then
@@ -252,8 +252,8 @@ OS_ARCH=$(echo "$(uname -s | tr '[:upper:]' '[:lower:]' | sed 's/mingw64_nt.*/wi
 CLI_TIMEOUT=10
 # default for delay between commands
 CLI_DELAY=3
-# channel name defaults to "aidtechchannel"
-CHANNEL_NAME="aidtechchannel"
+# channel name defaults to "samplechannel"
+CHANNEL_NAME="samplechannel"
 # use this as the default docker-compose yaml definition
 COMPOSE_FILE=docker-compose-cli.yaml
 #

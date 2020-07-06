@@ -1,12 +1,12 @@
 version: "2"
 
 volumes:
-  orderer.aidtech.com:
-  peer0.orgone.aidtech.com:
-  peer0.orgtwo.aidtech.com:
+  orderer.sample.com:
+  peer0.orgone.sample.com:
+  peer0.orgtwo.sample.com:
 
 networks:
-  aidtech:
+  sample:
 services:
   ca0:
     image: hyperledger/fabric-ca:latest
@@ -14,16 +14,16 @@ services:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-orgone
       - FABRIC_CA_SERVER_TLS_ENABLED=true
-      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.orgone.aidtech.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.orgone.sample.com-cert.pem
       - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY
     ports:
       - "7054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.orgone.aidtech.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.orgone.sample.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY -b admin:adminpw -d'
     volumes:
-      - ./crypto-config/peerOrganizations/orgone.aidtech.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ./crypto-config/peerOrganizations/orgone.sample.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca_peerOrgone
     networks:
-      - aidtech
+      - sample
 
   ca1:
     image: hyperledger/fabric-ca:latest
@@ -31,37 +31,37 @@ services:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-orgtwo
       - FABRIC_CA_SERVER_TLS_ENABLED=true
-      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.orgtwo.aidtech.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.orgtwo.sample.com-cert.pem
       - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY
     ports:
       - "8054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.orgtwo.aidtech.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.orgtwo.sample.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY -b admin:adminpw -d'
     volumes:
-      - ./crypto-config/peerOrganizations/orgtwo.aidtech.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ./crypto-config/peerOrganizations/orgtwo.sample.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca_peerOrgtwo
     networks:
-      - aidtech
+      - sample
 
-  orderer.aidtech.com:
+  orderer.sample.com:
     extends:
       file: base/docker-compose-base.yaml
-      service: orderer.aidtech.com
-    container_name: orderer.aidtech.com
+      service: orderer.sample.com
+    container_name: orderer.sample.com
     networks:
-      - aidtech
+      - sample
 
-  peer0.orgone.aidtech.com:
-    container_name: peer0.orgone.aidtech.com
+  peer0.orgone.sample.com:
+    container_name: peer0.orgone.sample.com
     extends:
       file: base/docker-compose-base.yaml
-      service: peer0.orgone.aidtech.com
+      service: peer0.orgone.sample.com
     networks:
-      - aidtech
+      - sample
 
-  peer0.orgtwo.aidtech.com:
-    container_name: peer0.orgtwo.aidtech.com
+  peer0.orgtwo.sample.com:
+    container_name: peer0.orgtwo.sample.com
     extends:
       file: base/docker-compose-base.yaml
-      service: peer0.orgtwo.aidtech.com
+      service: peer0.orgtwo.sample.com
     networks:
-      - aidtech
+      - sample

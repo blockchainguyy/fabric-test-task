@@ -1,6 +1,6 @@
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/aidtech.com/orderers/orderer.aidtech.com/msp/tlscacerts/tlsca.aidtech.com-cert.pem
-PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/tls/ca.crt
-PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.aidtech.com/peers/peer0.orgtwo.aidtech.com/tls/ca.crt
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/sample.com/orderers/orderer.sample.com/msp/tlscacerts/tlsca.sample.com-cert.pem
+PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/tls/ca.crt
+PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.sample.com/peers/peer0.orgtwo.sample.com/tls/ca.crt
 
 # verify the result of the end-to-end test
 verifyResult() {
@@ -15,8 +15,8 @@ verifyResult() {
 # Set OrdererOrg.Admin globals
 setOrdererGlobals() {
   CORE_PEER_LOCALMSPID="OrdererMSP"
-  CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/aidtech.com/orderers/orderer.aidtech.com/msp/tlscacerts/tlsca.aidtech.com-cert.pem
-  CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/aidtech.com/users/Admin@aidtech.com/msp
+  CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/sample.com/orderers/orderer.sample.com/msp/tlscacerts/tlsca.sample.com-cert.pem
+  CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/sample.com/users/Admin@sample.com/msp
 }
 
 setGlobals() {
@@ -25,16 +25,16 @@ setGlobals() {
   if [ $ORG -eq 1 ]; then
     CORE_PEER_LOCALMSPID="OrgoneMSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.aidtech.com/users/Admin@orgone.aidtech.com/msp
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgone.sample.com/users/Admin@orgone.sample.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.orgone.aidtech.com:7051
+      CORE_PEER_ADDRESS=peer0.orgone.sample.com:7051
     fi
   elif [ $ORG -eq 2 ]; then
     CORE_PEER_LOCALMSPID="OrgtwoMSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.aidtech.com/users/Admin@orgtwo.aidtech.com/msp
+    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orgtwo.sample.com/users/Admin@orgtwo.sample.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.orgtwo.aidtech.com:7051
+      CORE_PEER_ADDRESS=peer0.orgtwo.sample.com:7051
     fi
   else
     echo "================== ERROR !!! ORG Unknown =================="
@@ -93,12 +93,12 @@ instantiateChaincode() {
   # the "-o" option
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer chaincode instantiate -o orderer.aidtech.com:7050 -C $CHANNEL_NAME -n donation-manager-chaincode -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init"]}' -P "AND ('OrgoneMSP.peer','OrgtwoMSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer.sample.com:7050 -C $CHANNEL_NAME -n donation-manager-chaincode -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init"]}' -P "AND ('OrgoneMSP.peer','OrgtwoMSP.peer')" >&log.txt
     res=$?
     set +x
   else
     set -x
-    peer chaincode instantiate -o orderer.aidtech.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n donation-manager-chaincode -l ${LANGUAGE} -v 1.0 -c '{"Args":["init"]}' -P "AND ('OrgoneMSP.peer','OrgtwoMSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer.sample.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n donation-manager-chaincode -l ${LANGUAGE} -v 1.0 -c '{"Args":["init"]}' -P "AND ('OrgoneMSP.peer','OrgtwoMSP.peer')" >&log.txt
     res=$?
     set +x
   fi

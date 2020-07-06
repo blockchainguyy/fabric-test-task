@@ -6,8 +6,8 @@
 version: "2"
 
 services:
-  orderer.aidtech.com:
-    container_name: orderer.aidtech.com
+  orderer.sample.com:
+    container_name: orderer.sample.com
     image: hyperledger/fabric-orderer:latest
     environment:
       - ORDERER_GENERAL_LOGLEVEL=INFO
@@ -25,48 +25,48 @@ services:
     command: orderer
     volumes:
       - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ../crypto-config/ordererOrganizations/aidtech.com/orderers/orderer.aidtech.com/msp:/var/hyperledger/orderer/msp
-      - ../crypto-config/ordererOrganizations/aidtech.com/orderers/orderer.aidtech.com/tls/:/var/hyperledger/orderer/tls
-      - orderer.aidtech.com:/var/hyperledger/production/orderer
+      - ../crypto-config/ordererOrganizations/sample.com/orderers/orderer.sample.com/msp:/var/hyperledger/orderer/msp
+      - ../crypto-config/ordererOrganizations/sample.com/orderers/orderer.sample.com/tls/:/var/hyperledger/orderer/tls
+      - orderer.sample.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
 
-  peer0.orgone.aidtech.com:
-    container_name: peer0.orgone.aidtech.com
+  peer0.orgone.sample.com:
+    container_name: peer0.orgone.sample.com
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.orgone.aidtech.com
-      - CORE_PEER_ADDRESS=peer0.orgone.aidtech.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.orgone.aidtech.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.orgone.aidtech.com:7051
+      - CORE_PEER_ID=peer0.orgone.sample.com
+      - CORE_PEER_ADDRESS=peer0.orgone.sample.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.orgone.sample.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.orgone.sample.com:7051
       - CORE_PEER_LOCALMSPID=OrgoneMSP
     volumes:
       - /var/run/:/host/var/run/
-      - ../crypto-config/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/msp:/etc/hyperledger/fabric/msp
-      - ../crypto-config/peerOrganizations/orgone.aidtech.com/peers/peer0.orgone.aidtech.com/tls:/etc/hyperledger/fabric/tls
-      - peer0.orgone.aidtech.com:/var/hyperledger/production
+      - ../crypto-config/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/orgone.sample.com/peers/peer0.orgone.sample.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.orgone.sample.com:/var/hyperledger/production
     ports:
       - 7051:7051
       - 7053:7053
 
-  peer0.orgtwo.aidtech.com:
-    container_name: peer0.orgtwo.aidtech.com
+  peer0.orgtwo.sample.com:
+    container_name: peer0.orgtwo.sample.com
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.orgtwo.aidtech.com
-      - CORE_PEER_ADDRESS=peer0.orgtwo.aidtech.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.orgtwo.aidtech.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.orgtwo.aidtech.com:7051
+      - CORE_PEER_ID=peer0.orgtwo.sample.com
+      - CORE_PEER_ADDRESS=peer0.orgtwo.sample.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.orgtwo.sample.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.orgtwo.sample.com:7051
       - CORE_PEER_LOCALMSPID=OrgtwoMSP
     volumes:
       - /var/run/:/host/var/run/
-      - ../crypto-config/peerOrganizations/orgtwo.aidtech.com/peers/peer0.orgtwo.aidtech.com/msp:/etc/hyperledger/fabric/msp
-      - ../crypto-config/peerOrganizations/orgtwo.aidtech.com/peers/peer0.orgtwo.aidtech.com/tls:/etc/hyperledger/fabric/tls
-      - peer0.orgtwo.aidtech.com:/var/hyperledger/production
+      - ../crypto-config/peerOrganizations/orgtwo.sample.com/peers/peer0.orgtwo.sample.com/msp:/etc/hyperledger/fabric/msp
+      - ../crypto-config/peerOrganizations/orgtwo.sample.com/peers/peer0.orgtwo.sample.com/tls:/etc/hyperledger/fabric/tls
+      - peer0.orgtwo.sample.com:/var/hyperledger/production
     ports:
       - 8051:7051
       - 8053:7053
